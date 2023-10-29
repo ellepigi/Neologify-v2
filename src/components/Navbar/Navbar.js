@@ -3,26 +3,19 @@ import { NavLink } from "react-router-dom";
 import { Button } from "../Button/Button";
 import { Login } from "../Login/Login";
 import { useAuthValue } from "../../contexts/AuthContext";
+import { TagsDropdown } from "../TagsDropdown/TagsDropdown";
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ profileDropdown, setProfileDropdown] = useState(false);
+  const [ tagsDropDown, setTagsDropdown] = useState(false);
 
   const { currentUser, handleSignOut } = useAuthValue();
  
-
-  const handleProfileDropdown = () => {
-    if(profileDropdown){
-      setProfileDropdown(false) } else {
-      setProfileDropdown(true)
-      }
-    }
   
 
   const openModal = () => {
     setIsModalOpen(true);
-    console.log(isModalOpen)
   };
 
   const closeModal = () => {
@@ -42,26 +35,11 @@ export const Navbar = () => {
           <NavLink to="/submit" className="text-white">
             Submit
           </NavLink>
-          <div
-            onMouseEnter={() => setIsOpen(true)}
-            onMouseLeave={() => setIsOpen(false)}
-            className=" group"
-          > 
+          <div  className=" group"> 
 		    
-            <NavLink to="/tags"><span className="text-white cursor-pointer">Tags</span></NavLink>
-            {isOpen && (
-              <div className="absolute left-0 top-full h-32 w-full bg-white py-2 px-4 shadow-md">
-                {/* Contenuto del dropdown */}
-                <a href="/tags/tag1" className="block text-gray-800 hover:text-blue-600">
-                  Tag 1
-                </a>
-                <a href="/tags/tag2" className="block text-gray-800 hover:text-blue-600">
-                  Tag 2
-                </a>
-                <a href="/tags/tag3" className="block text-gray-800 hover:text-blue-600">
-                  Tag 3
-                </a>
-              </div>
+            <span  onClick={() => setTagsDropdown(!tagsDropDown)} className="text-white cursor-pointer">Tags</span>
+            {tagsDropDown && (
+              <TagsDropdown/>
             )}
           </div>
           <NavLink to="/about" className="text-white">
@@ -69,24 +47,24 @@ export const Navbar = () => {
           </NavLink>
         </div>
 		</div>
+        
+        <div className="flex items-center space-x-4">
         <div className="lg:hidden flex items-center">
           {/* Burger icon */}
           <button
-            onClick={() => setIsOpen(!isOpen)}
             className="text-white text-3xl lg:hidden block"
           >
             &#8801;
           </button>
         </div>
-        <div className="hidden lg:flex items-center space-x-4">
           <input
-            className="bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
+            className="hidden lg:block bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white"
             type="text"
             placeholder="Search"
           />
           {currentUser? (
              <div className="relative">
-               <button onClick={handleProfileDropdown} type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+               <button onClick={() => setProfileDropdown(!profileDropdown)} type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                  <span class="absolute -inset-1.5"></span>
                  <span class="sr-only">Open user menu</span>
                  <img class="h-8 w-8 rounded-full" src={currentUser.photoURL} alt="" />

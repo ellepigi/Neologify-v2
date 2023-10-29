@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+import { db, auth } from "../../firebaseConfig";
 
 export const Submit = () => {
 
@@ -11,9 +11,7 @@ export const Submit = () => {
     const [openModal, setOpenModal] = useState("");
     // const props = { openModal, setOpenModal };
   
-    // const user = auth.currentUser;
-
-    const user = null;
+    const user = auth.currentUser;
   
     const wordsCollectionRef = collection(db, "words");
   
@@ -73,7 +71,7 @@ export const Submit = () => {
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
             <h2 className=" text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-              Sumbit
+              Submit
             </h2>
           </div>
           <form onSubmit={CreateWord} className="mb-6">

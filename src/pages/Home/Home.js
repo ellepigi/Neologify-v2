@@ -34,7 +34,8 @@ export const Home = () => {
         <div className="cards-container flex gap-2 justify-center flex-wrap mt-8">
         {latest.map((item, index) => {
           return (
-            <Card title={item.title} key={index} />
+            <Card id={item.id} title={item.title} comment={item.comment} image={item.photo} username={item.userName} 
+            tags={item.tags} key={index} />
           )
         })}
         </div>
