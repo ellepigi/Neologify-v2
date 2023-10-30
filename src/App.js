@@ -8,6 +8,7 @@ import { Tags } from "./pages/Tags/Tags";
 import { About } from "./pages/About/About";
 import { Word } from "./pages/Word/Word";
 import { Profile } from "./pages/Profile/Profile";
+import { Tag } from "./pages/Tag/Tag";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           <Route path="/about" element={<About/>} />
           <Route path="/word/:cardId" element={<Word />} />
           <Route path="/profile" element={<Profile/>} />
-
+          <Route path="/tag/:tagName" element={<Tag />} />
         </Routes>
         <Footer />
       </Router>

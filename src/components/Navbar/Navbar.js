@@ -4,6 +4,7 @@ import { Button } from "../Button/Button";
 import { Login } from "../Login/Login";
 import { useAuthValue } from "../../contexts/AuthContext";
 import { TagsDropdown } from "../TagsDropdown/TagsDropdown";
+import './Navbar.css'
 
 export const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,21 +32,21 @@ export const Navbar = () => {
         <NavLink to="/" className="text-white text-2xl font-bold italic">
           Petaloso
         </NavLink>
-        <div className="lg:flex hidden space-x-4">
-        <NavLink to="/" activeClassName="text-blue-400" className="text-white hover:border-b border-b-blue-400">
+        <div id="nav" className="lg:flex hidden space-x-4">
+        <NavLink className="text-white hover:border-b border-b-blue-400" to="/"  >
             Home
           </NavLink>
-          <NavLink to="/submit" activeClassName="text-blue-400" className="text-white hover:border-b border-b-blue-400">
+          <NavLink to="/submit" id="link" className="text-white hover:border-b border-b-blue-400">
             Submit
           </NavLink>
           <div  className=" group"> 
 		    
-            <NavLink activeClassName="text-blue-400"  onClick={() => setTagsDropdown(!tagsDropDown)} className="text-white cursor-pointer hover:border-b border-b-blue-400">Tags</NavLink>
+            <NavLink   onClick={() => setTagsDropdown(!tagsDropDown)} className="text-white cursor-pointer hover:border-b border-b-blue-400">Tags</NavLink>
             {tagsDropDown && (
               <TagsDropdown/>
             )}
           </div>
-          <NavLink to="/about" activeClassName="text-blue-400" className="text-white hover:border-b border-b-blue-400">
+          <NavLink to="/about"  className="text-white hover:border-b border-b-blue-400">
             About
           </NavLink>
         </div>

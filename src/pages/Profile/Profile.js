@@ -3,6 +3,7 @@ import { useAuthValue } from "../../contexts/AuthContext";
 import { getAllCards } from "../../services/CardService";
 import { Card } from "../../components/Card/Card";
 import { Spinner } from "../../components/Spinner/Spinner";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 export const Profile = () => {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,20 @@ export const Profile = () => {
     fetchData();
   }, []);
 
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const itemsPerPage = 12;
+  const pageCount = Math.ceil(profileDocuments.length / itemsPerPage);
+
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = profileDocuments.slice(startIndex, endIndex);
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage.selected);
+  };
+
   if (loading) {
     <div className="flex justify-center items-center">
       <Spinner />
@@ -39,7 +54,7 @@ export const Profile = () => {
         My Words
       </h1>
       <div className="cards flex mt-8 space-y-4 gap-2 flex-wrap justify-center">
-        {profileDocuments.map((item) => (
+        {currentItems.map((item) => (
           <Card
             className="max-w-xs"
             key={item.id}
@@ -52,6 +67,9 @@ export const Profile = () => {
             tags={item.tags}
           />
         ))}
+      </div>
+      <div className="pagination block mt-4 h-8">
+      <Pagination handlePageChange={handlePageChange} pageCount={pageCount} />
       </div>
     </div>
   );
