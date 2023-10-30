@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Button } from "../Button/Button";
 import { Login } from "../Login/Login";
 import { useAuthValue } from "../../contexts/AuthContext";
@@ -25,24 +25,27 @@ export const Navbar = () => {
   return (
     <>
     
-	<nav className="relative bg-gray-800 p-4">
+	<nav className="relative bg-gray-800 p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
 		<div className="flex items-center gap-8 ">
         <NavLink to="/" className="text-white text-2xl font-bold italic">
           Petaloso
         </NavLink>
         <div className="lg:flex hidden space-x-4">
-          <NavLink to="/submit" className="text-white">
+        <NavLink to="/" activeClassName="text-blue-400" className="text-white hover:border-b border-b-blue-400">
+            Home
+          </NavLink>
+          <NavLink to="/submit" activeClassName="text-blue-400" className="text-white hover:border-b border-b-blue-400">
             Submit
           </NavLink>
           <div  className=" group"> 
 		    
-            <span  onClick={() => setTagsDropdown(!tagsDropDown)} className="text-white cursor-pointer">Tags</span>
+            <NavLink activeClassName="text-blue-400"  onClick={() => setTagsDropdown(!tagsDropDown)} className="text-white cursor-pointer hover:border-b border-b-blue-400">Tags</NavLink>
             {tagsDropDown && (
               <TagsDropdown/>
             )}
           </div>
-          <NavLink to="/about" className="text-white">
+          <NavLink to="/about" activeClassName="text-blue-400" className="text-white hover:border-b border-b-blue-400">
             About
           </NavLink>
         </div>
@@ -71,7 +74,7 @@ export const Navbar = () => {
                </button>
                {profileDropdown && (
                   <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                  <Link to="/profile" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</Link>
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
                   <a onClick={handleSignOut} href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
                 </div>

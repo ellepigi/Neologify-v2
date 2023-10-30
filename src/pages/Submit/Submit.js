@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig";
+import { Modal } from "../../components/Modal/Modal";
 
 export const Submit = () => {
 
@@ -8,8 +9,10 @@ export const Submit = () => {
     const [comment, setComment] = useState("");
     const [language, setLanguage] = useState("English");
   
-    const [openModal, setOpenModal] = useState("");
-    // const props = { openModal, setOpenModal };
+    //Modal
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalText, setModalText] = useState("");
   
     const user = auth.currentUser;
   
@@ -33,7 +36,7 @@ export const Submit = () => {
       try {
         if (!user) {
           await addDoc(wordsCollectionRef, { title, comment, language });
-        //   setOpenModal("success");
+          // setIsOpen(true);
           setTitle("");
           setComment("");
         } else {
@@ -49,13 +52,17 @@ export const Submit = () => {
             tags: tags,
             createdAt: serverTimestamp(),
           });
-        //   setOpenModal("success");
+          setModalTitle("Success")
+          setModalText("The neologism was succesfully submitted!")
+          setIsOpen(true);
           setTitle("");
           setComment("");
           setTags([]);
         }
       } catch (error) {
-        // setOpenModal("error");
+        setModalTitle("Error")
+        setModalText("The neologism could not be submitted...")
+        setIsOpen(true);
       }
     };
   
@@ -170,6 +177,7 @@ export const Submit = () => {
           </form>
         </div>
       </section>
+       <Modal isOpen={isOpen} title={modalTitle} text={modalText} /> 
     </div>
   )
 }

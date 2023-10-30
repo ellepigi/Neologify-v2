@@ -24,11 +24,11 @@ export const Card = (props) => {
         <h4 className="text-sm">{props.username}</h4>
         </div>
       </div>
-      <div class="flex justify-center px-6 pt-4 pb-2">
+      <div class="flex justify-center gap-2 px-6 pt-4 pb-2">
       {props.tags &&
           props.tags.slice(0, 3).map((tag, index) => (
             <Link key={index} to={`/tag/${tag}`}>
-              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 hover:bg-gray-300 mr-2 mb-2">
+              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 hover:bg-gray-300 mb-2">
                 {tag}
               </span>
             </Link>

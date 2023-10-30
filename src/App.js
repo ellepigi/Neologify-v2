@@ -7,6 +7,7 @@ import { Submit } from "./pages/Submit/Submit";
 import { Tags } from "./pages/Tags/Tags";
 import { About } from "./pages/About/About";
 import { Word } from "./pages/Word/Word";
+import { Profile } from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path="/tags" element={<Tags />} />
           <Route path="/about" element={<About/>} />
           <Route path="/word/:cardId" element={<Word />} />
-
+          <Route path="/profile" element={<Profile/>} />
 
         </Routes>
         <Footer />
