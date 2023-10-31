@@ -5,22 +5,36 @@ import { Login } from "../Login/Login";
 import { useAuthValue } from "../../contexts/AuthContext";
 import { TagsDropdown } from "../TagsDropdown/TagsDropdown";
 import './Navbar.css'
+import Drawer from "../Drawer/Drawer";
 
 export const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [ profileDropdown, setProfileDropdown] = useState(false);
   const [ tagsDropDown, setTagsDropdown] = useState(false);
 
   const { currentUser, handleSignOut } = useAuthValue();
  
   
-
+  //Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+
+  //Drawer
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
   };
 
   return (
@@ -55,7 +69,8 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4">
         <div className="lg:hidden flex items-center">
           {/* Burger icon */}
-          <button
+          <button 
+            onClick={openDrawer}
             className="text-white text-3xl lg:hidden block"
           >
             &#8801;
@@ -99,6 +114,8 @@ export const Navbar = () => {
     isOpen={isModalOpen}
     onClose={closeModal}
     />
+    <Drawer isOpen={isDrawerOpen} closeDrawer={closeDrawer} />
     </>
+    
   );
 };
