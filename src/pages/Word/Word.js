@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAllCards } from "../../services/CardService";
 import { Link } from "react-router-dom";
-import { db } from "../../firebaseConfig";
-
+import { Spinner } from "../../components/Spinner/Spinner"
+import { Comments } from "../../components/Comments/Comments";
 
 export const Word = () => {
   
@@ -33,7 +33,7 @@ export const Word = () => {
   return (
     <div className="min-h-screen flex flex-col items-center text-center mt-12">
     {card? (
-      <div className="mb-16">
+      <div className="w-2/4 mb-16">
         <h1 className="font-bold text-xl mb-4">{card.title}</h1>
         <p className="text-sm mb-8">{card.language}</p>
 
@@ -48,11 +48,16 @@ export const Word = () => {
             </Link>
           ))}
           </div>
+          <div className="comments mt-4">
+          <Comments cardId={cardId} />
+          </div>
       </div>
 
 
     ) : (
-      <h1>loading</h1>
+      <div>
+         <Spinner />
+      </div>
     )}
     </div>
       
