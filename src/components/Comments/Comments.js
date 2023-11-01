@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useAuthValue } from "../../services/CardService";
+import { useAuthValue } from "../../contexts/AuthContext"
 import { db } from "../../firebaseConfig";
 import {
   addDoc,
@@ -12,14 +12,22 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-export const Comments = (props) => {
+export const Comments = (cardId) => {
+  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+
+  const commentsCollectionRef = collection(db, "comments");
+  const { currentUser } = useAuthValue();
+  const username = currentUser.displayName;
+  const pic = currentUser.photoURL;
+
+
 
   useEffect(() => {
     async function fetchComments() {
       try {
         const querySnapshot = await getDocs(
-          query(collection(db, "comments"), where("cardId", "==", props.cardId))
+          query(collection(db, "comments"), where("cardId", "==", cardId))
         );
 
         const commentsData = [];
@@ -36,17 +44,48 @@ export const Comments = (props) => {
       }
     }
     fetchComments();
-  }, [props.cardId]);
+  }, [cardId]);
+
+  const createComment = async (e) => {
+    e.preventDefault();
+    try {
+      if (!currentUser) {
+        // setError("You must be logged in to submit a comment");
+      } else {
+        await addDoc(commentsCollectionRef, {
+          comment,
+          username,
+          cardId,
+          pic,
+          createdAt: serverTimestamp(),
+        });
+        // setOpenModal("success");
+        setComment("");
+        setComments((prevComments) => [
+          ...prevComments,
+          {
+            comment,
+            username,
+            cardId,
+            pic,
+            createdAt: new Date(), // You can use the current date here
+          },
+        ]);
+      }
+    } catch (error) {
+      // setOpenModal("error");
+    }
+  };
 
   return (
     <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
       <div class="max-w-2xl mx-auto px-4">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-            Discussion ({comments.length})
+          <h2 class="text-lg font-bold text-gray-900 dark:text-white">
+            Comments ({comments.length})
           </h2>
         </div>
-        <form class="mb-6">
+        <form onSubmit={createComment} class="mb-6">
           <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <label for="comment" class="sr-only">
               Your comment
@@ -56,6 +95,8 @@ export const Comments = (props) => {
               rows="6"
               class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
               placeholder="Write a comment..."
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
               required
             ></textarea>
           </div>
